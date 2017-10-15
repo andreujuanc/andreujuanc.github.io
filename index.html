@@ -3,11 +3,20 @@
 
 <head>
     <meta charset="utf-8">
-    
+
     <!-- EVERYTHING IS INLINE ON PURPOSE!! -->
     <title>Juan C. Andreu - Software Architect</title>
     <meta name="description" content="Welcome to Juan Carlos Andreu's landing page.">
     <meta name="author" content="Juan C. Andreu">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9724156-11"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-9724156-11');
+    </script>
 
     <style>
         html {
@@ -25,7 +34,7 @@
             transition: background-color 0.3s ease-in-out;
         }
 
-        body.background{
+        body.background {
             background-color: #151515;
         }
 
@@ -36,7 +45,7 @@
             justify-content: left;
             grid-template-rows: 1fr 2fr 1fr;
 
-            grid-template-columns: 15% auto 15%;            
+            grid-template-columns: 15% auto 15%;
             grid-template-areas: ". . ." ". center ." ". . .";
 
             color: #DDD;
@@ -48,9 +57,9 @@
         @media (max-width: 600px) {
             .wrapper {
                 font-size: 1.2rem;
-                grid-template-columns: auto;            
+                grid-template-columns: auto;
                 grid-template-areas: "." "center" ".";
-                margin-left:1.3rem;
+                margin-left: 1.3rem;
             }
         }
 
@@ -65,16 +74,16 @@
             align-self: center;
         }
 
-        #logo{
+        #logo {
             position: absolute;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 0.7rem;
-            color:#DDD;
+            color: #DDD;
             padding: 10px;
             top: 0;
             bottom: auto;
-            left:auto;
-            right:0;
+            left: auto;
+            right: 0;
         }
     </style>
 
@@ -103,32 +112,32 @@
                 'Type help for a list of commands.'];
             let location = 'guest@andr.eu:~$';
             let commands = [
-            {
-                name: 'help',
-                description: "Shows help",
-                exec: function (args) {
-                    outBuffer.push("Help!")
-                    commands.map(x => outBuffer.push("Command: " + x.name + " - " + x.description))
-                }
-            },
-            {
-                name: 'echo', description: "Displays message", exec: function (args) { outBuffer.push(args.join(' ')); }
-            }, 
-            {
-                name: 'clear', description: "Clears the console", exec: function () { clear(); }
-            }, 
-            {
-                name: 'info', 
-                description: "Shows Juan's Info", 
-                exec: function(args){
-                    clear();
-                    outBuffer.push('*******************************');
-                    outBuffer.push('  Juan Carlos Andreu Gutiérrez   ');
-                    outBuffer.push('  Software Architect    ');
-                    outBuffer.push('  @Madrid ');
-                    outBuffer.push('*******************************');
-                }
-            }];
+                {
+                    name: 'help',
+                    description: "Shows help",
+                    exec: function (args) {
+                        outBuffer.push("Help!")
+                        commands.map(x => outBuffer.push("Command: " + x.name + " - " + x.description))
+                    }
+                },
+                {
+                    name: 'echo', description: "Displays message", exec: function (args) { outBuffer.push(args.join(' ')); }
+                },
+                {
+                    name: 'clear', description: "Clears the console", exec: function () { clear(); }
+                },
+                {
+                    name: 'info',
+                    description: "Shows Juan's Info",
+                    exec: function (args) {
+                        clear();
+                        outBuffer.push('*******************************');
+                        outBuffer.push('  Juan Carlos Andreu Gutiérrez   ');
+                        outBuffer.push('  Software Architect    ');
+                        outBuffer.push('  @Madrid ');
+                        outBuffer.push('*******************************');
+                    }
+                }];
 
             function init() {
                 document.body.classList.add("background");
@@ -160,11 +169,11 @@
                 let command = commands.find(x => x.name === name);
                 if (typeof command !== 'undefined' && command !== null)
                     command.exec(args);
-                else 
+                else
                     outBuffer.push('Error, Command not found.');
             }
 
-            function clear(){
+            function clear() {
                 output.innerHTML = '';
             }
 
