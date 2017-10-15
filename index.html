@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-
+    
+    <!-- EVERYTHING IS INLINE ON PURPOSE!! -->
     <title>Juan C. Andreu - Software Architect</title>
     <meta name="description" content="Welcome to Juan Carlos Andreu's landing page.">
     <meta name="author" content="Juan C. Andreu">
@@ -20,6 +21,11 @@
         }
 
         body {
+            background-color: initial;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        body.background{
             background-color: #151515;
         }
 
@@ -27,31 +33,62 @@
 
             height: 100%;
             display: grid;
-            justify-content: center;
-            grid-template-columns: 15% auto 15%;
-            grid-template-rows: 1fr 1fr 1fr;
+            justify-content: left;
+            grid-template-rows: 1fr 2fr 1fr;
+
+            grid-template-columns: 15% auto 15%;            
             grid-template-areas: ". . ." ". center ." ". . .";
 
             color: #DDD;
             font-family: monospace;
 
-            white-space: pre-line;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 600px) {
+            .wrapper {
+                font-size: 1.2rem;
+                grid-template-columns: auto;            
+                grid-template-areas: "." "center" ".";
+                margin-left:1.3rem;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .wrapper {
+                font-size: 1rem;
+            }
         }
 
         .center-screen {
             grid-area: center;
             align-self: center;
         }
+
+        #logo{
+            position: absolute;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.7rem;
+            color:#DDD;
+            padding: 10px;
+            top: 0;
+            bottom: auto;
+            left:auto;
+            right:0;
+        }
     </style>
 
 </head>
 
 <body>
+    <div id="logo">
+        Andr.eu OS v0.1 | Copyleft 2017
+    </div>
     <div class="wrapper screen">
         <div class="center-screen">
             <div id="output"></div>
             <div id="input">
+                <span id="consolelocation"></span>
                 <span id="inputtext"></span>
                 <span id="consoleprompt">_</span>
             </div>
@@ -64,31 +101,81 @@
             let line = '';
             let welcomeText = ['Welcome to Juan C. Andreu\'s home portal.',
                 'Type help for a list of commands.'];
-            let promptText = 'guest@andr.eu:~$';
+            let location = 'guest@andr.eu:~$';
+            let commands = [
+            {
+                name: 'help',
+                description: "Shows help",
+                exec: function (args) {
+                    outBuffer.push("Help!")
+                    commands.map(x => outBuffer.push("Command: " + x.name + " - " + x.description))
+                }
+            },
+            {
+                name: 'echo', description: "Displays message", exec: function (args) { outBuffer.push(args.join(' ')); }
+            }, 
+            {
+                name: 'clear', description: "Clears the console", exec: function () { clear(); }
+            }, 
+            {
+                name: 'info', 
+                description: "Shows Juan's Info", 
+                exec: function(args){
+                    clear();
+                    outBuffer.push('*******************************');
+                    outBuffer.push('  Juan Carlos Andreu Gutiérrez   ');
+                    outBuffer.push('  Software Architect    ');
+                    outBuffer.push('  @Madrid ');
+                    outBuffer.push('*******************************');
+                }
+            }];
 
             function init() {
+                document.body.classList.add("background");
                 outBuffer.push(welcomeText[0]);
                 outBuffer.push(welcomeText[1]);
                 write();
             }
+
             function onkeypress(args) {
-                if(args.keyCode > 64 && args.keyCode <= 90)
+                if ((args.keyCode > 64 && args.keyCode <= 90) || args.keyCode === 32)
                     inputtext.textContent += args.key;
-                else if(args.keyCode == 8)
-                    inputtext.textContent = inputtext.textContent.substr(0, inputtext.textContent.length -1);
-                else if(args.keyCode == 13){
-                    outBuffer.push(inputtext.textContent);
-                    inputtext.textContent = '';
+                else if (args.keyCode == 8)
+                    inputtext.textContent = inputtext.textContent.substr(0, inputtext.textContent.length - 1);
+                else if (args.keyCode == 13) {
+                    if (parseLine(inputtext.textContent))
+                        inputtext.textContent = '';
                 }
             }
 
+            function parseLine(text) {
+                if (typeof text !== 'string') return false;
+                var words = text.replace(/ /g, ' ').split(' ');
+                if (words.length === 0) return false;
+                command(words[0], words.length > 0 ? words.splice(1, words.length - 1) : undefined);
+                return true;
+            }
+
+            function command(name, args) {
+                let command = commands.find(x => x.name === name);
+                if (typeof command !== 'undefined' && command !== null)
+                    command.exec(args);
+                else 
+                    outBuffer.push('Error, Command not found.');
+            }
+
+            function clear(){
+                output.innerHTML = '';
+            }
+
             function write() {
+                consolelocation.textContent = location;
                 let text = outBuffer;
                 outBuffer = [];
                 if (!Array.isArray(text)) {
                     text = [text];
                 }
-                
+
                 let type = function (text) {
                     if (typeof text !== 'string') return false;
                     var newLine = document.createElement('div');
@@ -100,7 +187,8 @@
                 let animatePrompt = function () {
                     if (consoleprompt.style.opacity == '0')
                         consoleprompt.style.opacity = 1;
-                    else consoleprompt.style.opacity = 0;
+                    else
+                        consoleprompt.style.opacity = 0;
                     setTimeout(write, 500);
                 }
 
@@ -119,7 +207,7 @@
         }
         let os = new AndreuOS();
         window.onload = os.init
-        window.onkeyup  = os.onkeypress;
+        window.onkeyup = os.onkeypress;
     </script>
 </body>
 
