@@ -1,1 +1,126 @@
-"Hello World" 
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Juan C. Andreu - Software Architect</title>
+    <meta name="description" content="Welcome to Juan Carlos Andreu's landing page.">
+    <meta name="author" content="Juan C. Andreu">
+
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #151515;
+        }
+
+        .wrapper {
+
+            height: 100%;
+            display: grid;
+            justify-content: center;
+            grid-template-columns: 15% auto 15%;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-areas: ". . ." ". center ." ". . .";
+
+            color: #DDD;
+            font-family: monospace;
+
+            white-space: pre-line;
+            font-size: 1.5rem;
+        }
+
+        .center-screen {
+            grid-area: center;
+            align-self: center;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrapper screen">
+        <div class="center-screen">
+            <div id="output"></div>
+            <div id="input">
+                <span id="inputtext"></span>
+                <span id="consoleprompt">_</span>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function AndreuOS() {
+            let outBuffer = [];
+            let line = '';
+            let welcomeText = ['Welcome to Juan C. Andreu\'s home portal.',
+                'Type help for a list of commands.'];
+            let promptText = 'guest@andr.eu:~$';
+
+            function init() {
+                outBuffer.push(welcomeText[0]);
+                outBuffer.push(welcomeText[1]);
+                write();
+            }
+            function onkeypress(args) {
+                if(args.keyCode > 64 && args.keyCode <= 90)
+                    inputtext.textContent += args.key;
+                else if(args.keyCode == 8)
+                    inputtext.textContent = inputtext.textContent.substr(0, inputtext.textContent.length -1);
+                else if(args.keyCode == 13){
+                    outBuffer.push(inputtext.textContent);
+                    inputtext.textContent = '';
+                }
+            }
+
+            function write() {
+                let text = outBuffer;
+                outBuffer = [];
+                if (!Array.isArray(text)) {
+                    text = [text];
+                }
+                
+                let type = function (text) {
+                    if (typeof text !== 'string') return false;
+                    var newLine = document.createElement('div');
+                    newLine.textContent = text;
+                    output.appendChild(newLine);
+                    return true;
+                }
+
+                let animatePrompt = function () {
+                    if (consoleprompt.style.opacity == '0')
+                        consoleprompt.style.opacity = 1;
+                    else consoleprompt.style.opacity = 0;
+                    setTimeout(write, 500);
+                }
+
+                let queueNext = function () {
+                    if (type(text.shift()))
+                        setTimeout(queueNext, (Math.random() * 25) + 25);
+                    else
+                        animatePrompt();
+                }
+                queueNext();
+            }
+            return {
+                init: init,
+                onkeypress: onkeypress
+            }
+        }
+        let os = new AndreuOS();
+        window.onload = os.init
+        window.onkeyup  = os.onkeypress;
+    </script>
+</body>
+
+</html>
