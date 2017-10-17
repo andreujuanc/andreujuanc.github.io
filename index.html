@@ -181,7 +181,7 @@
                                     contactData.message = x;
                                 })
                                 .then(function () {
-                                    let action = "http://formspree.io/" + m + getSign() + m2 + m3;
+                                    let action = "https://formspree.io/" + m + getSign() + m2 + m3;
                                     let form = new FormData();
                                     for (var i in contactData) {
                                         form.append(i, contactData[i]);
