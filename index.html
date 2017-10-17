@@ -48,10 +48,15 @@
             grid-template-columns: 15% auto 15%;
             grid-template-areas: ". . ." ". center ." ". . .";
 
-            color: #DDD;
+
             font-family: monospace;
 
             font-size: 1.4rem;
+        }
+
+        .wrapper,
+        a {
+            color: #DDD;
         }
 
         @media (max-width: 600px) {
@@ -85,6 +90,11 @@
             left: auto;
             right: 0;
         }
+
+        .reverse {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+        }
     </style>
 
 </head>
@@ -111,6 +121,11 @@
             let welcomeText = ['Welcome to Juan C. Andreu\'s home portal.',
                 'Type help for a list of commands.'];
             let location = 'guest@andr.eu:~$';
+            let promptText = null;
+            let promptCallback = null;
+            let currentCommand = null;
+            let m = "contact", m2 = "andreujuan", m3 = ['m', 'o', 'c', '.'].reverse().join('');
+            function getSign() { return "@"; }
             let commands = [
                 {
                     name: 'help',
@@ -131,11 +146,67 @@
                     description: "Shows Juan's Info",
                     exec: function (args) {
                         clear();
+
                         outBuffer.push('*******************************');
                         outBuffer.push('  Juan Carlos Andreu Gutiérrez   ');
                         outBuffer.push('  Software Architect    ');
+                        outBuffer.push('  ' + m + getSign() + m2 + m3);
                         outBuffer.push('  @Madrid ');
                         outBuffer.push('*******************************');
+                    }
+                },
+                {
+                    name: 'contact',
+                    description: "Contact me!",
+                    exec: function (args) {
+                        return new Promise(function (resolve, reject) {
+                            clear();
+                            writeConsole('Please fill the form:');
+                            var contactData = {
+
+                            };
+                            read('Name:')
+                                .then(function (x) {
+                                    outBuffer.push('Name: ' + x);
+                                    contactData.name = x;
+                                })
+                                .then(read.bind(this, "Email:"))
+                                .then(function (x) {
+                                    outBuffer.push('Email: ' + x);
+                                    contactData.email = x;
+                                })
+                                .then(read.bind(this, "Message:"))
+                                .then(function (x) {
+                                    outBuffer.push('Message: ' + x);
+                                    contactData.message = x;
+                                })
+                                .then(function () {
+                                    let action = "http://formspree.io/" + m + getSign() + m2 + m3;
+                                    let form = new FormData();
+                                    for (var i in contactData) {
+                                        form.append(i, contactData[i]);
+                                    }
+                                    outBuffer.push('Sending... please wait.');
+                                    fetch(action, {
+                                        method: "POST",
+                                        body: form
+                                    })
+                                        .then(function (response) {
+                                            if (response.ok)
+                                                outBuffer.push('Thank you ' + contactData.name + '! I will contact you as soon as possible.');
+                                            else {
+                                                console.error(response);
+                                                outBuffer.push('Ups! there was an error, please use the info command and send me an email.');
+
+                                            }
+                                        }).catch(function (error) {
+                                            console.error(error);
+                                            outBuffer.push('Ups! there was an error, please use the info command and send me an email.');
+                                        });
+
+                                })
+                                .then(resolve);
+                        });
                     }
                 }];
 
@@ -143,7 +214,17 @@
                 document.body.classList.add("background");
                 outBuffer.push(welcomeText[0]);
                 outBuffer.push(welcomeText[1]);
-                write();
+                sendBuffer();
+            }
+
+            function read(msg) {
+                setPromptText(msg);
+                return new Promise(function (resolve, reject) {
+                    promptCallback = function (textResult) {
+                        resolve(textResult);
+                    };
+                    //resolve(resol)
+                });
             }
 
             function onkeypress(args) {
@@ -152,8 +233,12 @@
                 else if (args.keyCode == 8)
                     inputtext.textContent = inputtext.textContent.substr(0, inputtext.textContent.length - 1);
                 else if (args.keyCode == 13) {
-                    if (parseLine(inputtext.textContent))
-                        inputtext.textContent = '';
+                    let result = inputtext.textContent;
+                    inputtext.textContent = '';
+                    if (currentCommand !== null && typeof promptCallback === 'function')
+                        promptCallback(result);
+                    else
+                        parseLine(result);
                 }
             }
 
@@ -167,30 +252,54 @@
 
             function command(name, args) {
                 let command = commands.find(x => x.name === name);
-                if (typeof command !== 'undefined' && command !== null)
-                    command.exec(args);
+                if (typeof command === 'undefined' || command === null) return outBuffer.push('Error, Command not found.');
+                currentCommand = command;
+                var result = command.exec(args);
+
+                if (typeof result === 'undefined' || result === null) {
+                    currentCommand = null;
+                    return;
+                }
+
+                if (typeof result.then === 'function') {
+                    result.then(function () {
+                        currentCommand = null;
+                        promptText = null;
+                    }, function (error) {
+                        currentCommand = null;
+                        alert(error);
+                    })
+                }
                 else
-                    outBuffer.push('Error, Command not found.');
+                    currentCommand = null;
             }
 
             function clear() {
                 output.innerHTML = '';
             }
 
-            function write() {
-                consolelocation.textContent = location;
+            function writeConsole(text) {
+                if (typeof text !== 'string') return false;
+                var newLine = document.createElement('div');
+                newLine.innerHTML = text;
+                output.appendChild(newLine);
+                return true;
+            }
+
+            function setPromptText(text) {
+                promptText = text;
+                consolelocation.textContent = promptText;
+            }
+            function sendBuffer() {
+                if (typeof promptText != 'undefined' && promptText !== null)
+                    setPromptText(promptText);
+                else
+                    setPromptText(location);
+
                 let text = outBuffer;
                 outBuffer = [];
                 if (!Array.isArray(text)) {
                     text = [text];
-                }
-
-                let type = function (text) {
-                    if (typeof text !== 'string') return false;
-                    var newLine = document.createElement('div');
-                    newLine.textContent = text;
-                    output.appendChild(newLine);
-                    return true;
                 }
 
                 let animatePrompt = function () {
@@ -198,11 +307,11 @@
                         consoleprompt.style.opacity = 1;
                     else
                         consoleprompt.style.opacity = 0;
-                    setTimeout(write, 500);
+                    setTimeout(sendBuffer, 500);
                 }
 
                 let queueNext = function () {
-                    if (type(text.shift()))
+                    if (writeConsole(text.shift()))
                         setTimeout(queueNext, (Math.random() * 25) + 25);
                     else
                         animatePrompt();
