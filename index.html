@@ -181,7 +181,8 @@
                                     contactData.message = x;
                                 })
                                 .then(function () {
-                                    let action = "https://formspree.io/" + m + getSign() + m2 + m3;
+                                    //let action = "https://formspree.io/" + m + getSign() + m2 + m3;
+                                    let action = "https://hooks.zapier.com/hooks/catch/2191755/iits0w/";
                                     let form = new FormData();
                                     for (var i in contactData) {
                                         form.append(i, contactData[i]);
@@ -228,7 +229,12 @@
             }
 
             function onkeypress(args) {
-                if ((args.keyCode > 64 && args.keyCode <= 90) || args.keyCode === 32)
+                if ((args.keyCode > 64 && args.keyCode <= 90) 
+                        || (args.keyCode >= 48 && args.keyCode <= 57) 
+                        || args.keyCode === 32
+                        || args.key === '@'
+                        || args.key === '.'
+                        || args.key === '_')
                     inputtext.textContent += args.key;
                 else if (args.keyCode == 8)
                     inputtext.textContent = inputtext.textContent.substr(0, inputtext.textContent.length - 1);
