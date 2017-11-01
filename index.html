@@ -173,6 +173,9 @@
                         outBuffer.push('  Software Architect    ');
                         outBuffer.push('  ' + m + getSign() + m2 + m3);
                         outBuffer.push('  @Madrid ');
+                        outBuffer.push('   ');
+                        outBuffer.push('  Twitter: @andreujuanc ');
+                        outBuffer.push('  Github: /andreujuanc ');
                         outBuffer.push('*******************************');
                     }
                 },
@@ -335,9 +338,10 @@
                 }
 
                 let queueNext = function () {
+                    const delay = (Math.random() * 20) + 10;
                     if (writeConsole(text.shift()))
-                        setTimeout(queueNext, (Math.random() * 25) + 25);
-                    setTimeout(sendBuffer, (Math.random() * 25) + 25);
+                        setTimeout(queueNext, delay);
+                    setTimeout(sendBuffer, delay);
                 }
                 queueNext();
             }
