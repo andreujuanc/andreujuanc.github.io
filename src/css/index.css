@@ -74,6 +74,9 @@ a {
     unicode-bidi: bidi-override;
     direction: rtl;
 }
+#consolelocation{
+    padding-top: 2px;
+}
 
 #input {
     display: flex;
