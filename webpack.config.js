@@ -1,9 +1,14 @@
 const path = require('path');
 var webpack = require('webpack');
+
 //https://github.com/jantimon/html-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 //https://github.com/dustinjackson/html-webpack-inline-source-plugin
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+
+//https://github.com/webpack-contrib/copy-webpack-plugin
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -59,6 +64,11 @@ module.exports = {
             },
             // hash: false
         }),
-        new HtmlWebpackInlineSourcePlugin()
+        new HtmlWebpackInlineSourcePlugin(),
+        new CopyWebpackPlugin([
+                { from: 'dist/index.html', to: '../', force:true  }
+            ],
+            { copyUnmodified: true }
+        )
     ]
 };
