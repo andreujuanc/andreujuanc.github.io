@@ -207,7 +207,7 @@
                                 });
                             };
 
-                            for (var part in contactData) {
+                            for (let part in contactData) {
                                 chain = readWrap(chain, part, 0);
                             }
 
@@ -216,7 +216,7 @@
                                     //let action = "https://formspree.io/" + m + getSign() + m2 + m3;
                                     let action = "https://hooks.zapier.com/hooks/catch/2191755/iits0w/";
                                     let form = new FormData();
-                                    for (var i in contactData) {
+                                    for (let i in contactData) {
                                         form.append(i.toString().toLowerCase(), contactData[i]);
                                     }
                                     console.log('sending', form);
@@ -276,7 +276,7 @@
 
             function parseLine(text) {
                 if (typeof text !== 'string') return false;
-                var words = text.replace(/ /g, ' ').split(' ');
+                let words = text.replace(/ /g, ' ').split(' ');
                 if (words.length === 0) return false;
                 command(words[0], words.length > 0 ? words.splice(1, words.length - 1) : undefined);
                 return true;
@@ -286,7 +286,7 @@
                 let command = commands.find(x => x.name === name);
                 if (typeof command === 'undefined' || command === null) return outBuffer.push('Error, Command not found.');
                 currentCommand = command;
-                var result = command.exec(args);
+                let result = command.exec(args);
 
                 if (typeof result === 'undefined' || result === null) {
                     currentCommand = null;
@@ -312,7 +312,7 @@
 
             function writeConsole(text) {
                 if (typeof text !== 'string') return false;
-                var newLine = document.createElement('div');
+                let newLine = document.createElement('div');
                 newLine.innerHTML = text;
                 output.appendChild(newLine);
                 return true;
@@ -346,6 +346,7 @@
                 onkeypress: onkeypress
             }
         }
+
         let os = new AndreuOS();
         window.onload = os.init
         window.onkeyup = os.onkeypress;
