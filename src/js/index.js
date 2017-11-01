@@ -1,3 +1,4 @@
+import styles from '../css/index.css'
 import commands from './commands';
 import std from './io/std';
 import terminal from './io/terminal';
