@@ -252,6 +252,9 @@
                 outBuffer.push(welcomeText[0]);
                 outBuffer.push(welcomeText[1]);
                 sendBuffer();
+                setTimeout(function() {
+                    inputtext.focus();
+                }, 50);
             }
 
             function read(msg) {
