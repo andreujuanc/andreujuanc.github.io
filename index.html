@@ -31,7 +31,7 @@
 
         body {
             background-color: initial;
-            transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.1s ease-in-out;
         }
 
         body.background {
@@ -42,7 +42,7 @@
 
             height: 100%;
             display: grid;
-            justify-content: left;
+            /* justify-content: left; */
             grid-template-rows: 1fr 2fr 1fr;
 
             grid-template-columns: 15% auto 15%;
@@ -95,27 +95,47 @@
             unicode-bidi: bidi-override;
             direction: rtl;
         }
+
+        #input {
+            display: flex;
+        }
+
+        #inputtext {
+            background: transparent;
+            border: none;
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #DDD;
+            display: initial;
+            margin-left: 0.4rem;
+        }
+
+        #inputtext:focus {
+            outline: none !important;
+            border: none;
+            box-shadow: 0;
+        }
     </style>
 
 </head>
 
 <body>
     <div id="logo">
-        Andr.eu OS v0.1 | Copyleft 2017
+        <a href="https://github.com/andreujuanc/andreujuanc.github.io">Andr.eu OS v0.2</a> | Copyleft 2017
     </div>
     <div class="wrapper screen">
         <div class="center-screen">
             <div id="output"></div>
             <div id="input">
                 <span id="consolelocation"></span>
-                <span id="inputtext"></span>
-                <span id="consoleprompt">_</span>
+                <input id="inputtext"></input>
             </div>
         </div>
 
     </div>
     <script>
         function AndreuOS() {
+
             let outBuffer = [];
             let line = '';
             let welcomeText = ['Welcome to Juan C. Andreu\'s home portal.',
@@ -126,6 +146,7 @@
             let currentCommand = null;
             let m = "contact", m2 = "andreujuan", m3 = ['m', 'o', 'c', '.'].reverse().join('');
             function getSign() { return "@"; }
+
             let commands = [
                 {
                     name: 'help',
@@ -162,31 +183,43 @@
                         return new Promise(function (resolve, reject) {
                             clear();
                             writeConsole('Please fill the form:');
-                            var contactData = {
-
+                            let contactData = {
+                                Name: null,
+                                Email: null,
+                                Message: null
                             };
-                            read('Name:')
-                                .then(function (x) {
-                                    outBuffer.push('Name: ' + x);
-                                    contactData.name = x;
-                                })
-                                .then(read.bind(this, "Email:"))
-                                .then(function (x) {
-                                    outBuffer.push('Email: ' + x);
-                                    contactData.email = x;
-                                })
-                                .then(read.bind(this, "Message:"))
-                                .then(function (x) {
-                                    outBuffer.push('Message: ' + x);
-                                    contactData.message = x;
-                                })
+                            let chain = new Promise(function (resolve) { resolve(); });
+
+                            let readWrap = function (chain, part, times) {
+                                return chain.then(function () {
+                                    return new Promise(function (resolve, reject) {
+                                        read(part)
+                                            .then(function (x) {
+                                                if (x.length === 0) {
+                                                    outBuffer.push('Input must not be empty: ' + part);
+                                                    return readWrap(chain, part, ++times);
+                                                }
+                                                outBuffer.push(part + ': ' + x);
+                                                contactData[part] = x;
+                                            })
+                                            .then(resolve);
+                                    });
+                                });
+                            };
+
+                            for (var part in contactData) {
+                                chain = readWrap(chain, part, 0);
+                            }
+
+                            return chain
                                 .then(function () {
                                     //let action = "https://formspree.io/" + m + getSign() + m2 + m3;
                                     let action = "https://hooks.zapier.com/hooks/catch/2191755/iits0w/";
                                     let form = new FormData();
                                     for (var i in contactData) {
-                                        form.append(i, contactData[i]);
+                                        form.append(i.toString().toLowerCase(), contactData[i]);
                                     }
+                                    console.log('sending', form);
                                     outBuffer.push('Sending... please wait.');
                                     fetch(action, {
                                         method: "POST",
@@ -194,7 +227,7 @@
                                     })
                                         .then(function (response) {
                                             if (response.ok)
-                                                outBuffer.push('Thank you ' + contactData.name + '! I will contact you as soon as possible.');
+                                                outBuffer.push('Thank you ' + contactData.Name + '! I will contact you as soon as possible.');
                                             else {
                                                 console.error(response);
                                                 outBuffer.push('Ups! there was an error, please use the info command and send me an email.');
@@ -219,28 +252,21 @@
             }
 
             function read(msg) {
+                console.log('reading', msg);
                 setPromptText(msg);
                 return new Promise(function (resolve, reject) {
                     promptCallback = function (textResult) {
+                        if (typeof textResult !== 'string') return resolve('');
+                        textResult = textResult.trim();
                         resolve(textResult);
                     };
-                    //resolve(resol)
                 });
             }
 
             function onkeypress(args) {
-                if ((args.keyCode > 64 && args.keyCode <= 90) 
-                        || (args.keyCode >= 48 && args.keyCode <= 57) 
-                        || args.keyCode === 32
-                        || args.key === '@'
-                        || args.key === '.'
-                        || args.key === '_')
-                    inputtext.textContent += args.key;
-                else if (args.keyCode == 8)
-                    inputtext.textContent = inputtext.textContent.substr(0, inputtext.textContent.length - 1);
-                else if (args.keyCode == 13) {
-                    let result = inputtext.textContent;
-                    inputtext.textContent = '';
+                if (args.keyCode == 13) {
+                    let result = inputtext.value;
+                    inputtext.value = '';
                     if (currentCommand !== null && typeof promptCallback === 'function')
                         promptCallback(result);
                     else
@@ -308,19 +334,10 @@
                     text = [text];
                 }
 
-                let animatePrompt = function () {
-                    if (consoleprompt.style.opacity == '0')
-                        consoleprompt.style.opacity = 1;
-                    else
-                        consoleprompt.style.opacity = 0;
-                    setTimeout(sendBuffer, 500);
-                }
-
                 let queueNext = function () {
                     if (writeConsole(text.shift()))
                         setTimeout(queueNext, (Math.random() * 25) + 25);
-                    else
-                        animatePrompt();
+                    setTimeout(sendBuffer, (Math.random() * 25) + 25);
                 }
                 queueNext();
             }
@@ -332,6 +349,9 @@
         let os = new AndreuOS();
         window.onload = os.init
         window.onkeyup = os.onkeypress;
+        window.onclick = function () {
+            inputtext.focus();
+        }
     </script>
 </body>
 
