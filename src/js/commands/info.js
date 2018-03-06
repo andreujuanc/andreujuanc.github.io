@@ -10,12 +10,11 @@ export default {
 
         std.push('*******************************');
         std.push('  Juan Carlos Andreu Gutiérrez   ');
-        std.push('  Software Architect    ');
+        std.push('  Software Architect  @Madrid  ');
         std.push('  ' + m + getSign() + m2 + m3);
-        std.push('  @Madrid ');
-        std.push('   ');
-        std.push('  Twitter: @andreujuanc ');
-        std.push('  Github: /andreujuanc ');
+        std.push('  <br/> ');
+        std.push('  Twitter: <a href="https://twitter.com/andreujuanc" target="blank" >@andreujuanc </a> ');
+        std.push('  Github: <a href="https://github.com/andreujuanc"   target="blank" >/andreujuanc </a> ');
         std.push('*******************************');
     }
 };

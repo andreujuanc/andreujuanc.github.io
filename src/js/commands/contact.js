@@ -7,11 +7,14 @@ export default {
         return new Promise(function (resolve, reject) {
             std.clear();
             std.writeConsole('Please fill the form:');
+            std.writeConsole('Valid contact method if want a reply :)');
+
             let contactData = {
                 Name: null,
                 Email: null,
                 Message: null
             };
+
             let chain = new Promise(function (resolve) { resolve(); });
 
             let readWrap = function (chain, part, times) {

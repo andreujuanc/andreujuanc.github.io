@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    font-size: 14pt;
 }
 
 body {
@@ -30,7 +31,7 @@ body.background {
 
     font-family: monospace;
 
-    font-size: 1.4rem;
+    font-size: 1em;
 }
 
 .wrapper,
@@ -40,18 +41,17 @@ a {
 
 @media (max-width: 600px) {
     .wrapper {
-        font-size: 1.2rem;
         grid-template-columns: auto;
         grid-template-areas: "." "center" ".";
         margin-left: 1.3rem;
     }
 }
 
-@media (max-width: 450px) {
+/* @media (max-width: 450px) {
     .wrapper {
         font-size: 1rem;
     }
-}
+} */
 
 .center-screen {
     grid-area: center;
@@ -86,14 +86,19 @@ a {
     background: transparent;
     border: none;
     font-family: monospace;
-    font-size: 1.2rem;
+    font-size: 1em;
     color: #DDD;
     display: initial;
     margin-left: 0.4rem;
+    width: 100%;
 }
 
 #inputtext:focus {
     outline: none !important;
     border: none;
     box-shadow: 0;
+}
+
+#output > div {
+    margin-bottom:2px;
 }

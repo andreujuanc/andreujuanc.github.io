@@ -43,6 +43,7 @@ function onkeypress(args) {
 }
 
 function parseLine(text) {
+    std.push(consolelocation.textContent + ' ' + text)
     if (typeof text !== 'string') return false;
     let words = text.replace(/ /g, ' ').split(' ');
     if (words.length === 0) return false;

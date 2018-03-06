@@ -24,7 +24,8 @@ module.exports = {
     },
     output: {
         filename: '[name]',
-        path: path.resolve(__dirname, 'dist')
+        path: __dirname
+            //path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -50,11 +51,11 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            minimize: true,
-            compress: { warnings: false }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     include: /\.min\.js$/,
+        //     minimize: true,
+        //     compress: { warnings: false }
+        // }),
         new HtmlWebpackPlugin({
             inlineSource: '.(js|css)$', // embed all javascript and css inline
             template: './src/html/index.html',
@@ -64,11 +65,11 @@ module.exports = {
             },
             // hash: false
         }),
-        new HtmlWebpackInlineSourcePlugin(),
-        new CopyWebpackPlugin([
-                { from: 'dist/index.html', to: '../', force:true  }
-            ],
-            { copyUnmodified: true }
-        )
+        //new HtmlWebpackInlineSourcePlugin(),
+        // new CopyWebpackPlugin([
+        //     { from: 'dist/index.html', to: '../', force: true }
+        // ],
+        //     { copyUnmodified: true }
+        // )
     ]
 };
