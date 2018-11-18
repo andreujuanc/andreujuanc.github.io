@@ -8,13 +8,13 @@ export default {
     exec: function (args) {
         std.clear();
 
-        std.push('*******************************');
+        std.push('***********************************');
         std.push('  Juan Carlos Andreu Gutiérrez   ');
-        std.push('  Software Architect  @Madrid  ');
+        std.push('  Software Architect  @Netherlands  ');
         std.push('  ' + m + getSign() + m2 + m3);
         std.push('  <br/> ');
         std.push('  Twitter: <a href="https://twitter.com/andreujuanc" target="blank" >@andreujuanc </a> ');
         std.push('  Github: <a href="https://github.com/andreujuanc"   target="blank" >/andreujuanc </a> ');
-        std.push('*******************************');
+        std.push('***********************************');
     }
 };
