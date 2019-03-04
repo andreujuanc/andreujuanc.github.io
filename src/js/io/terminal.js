@@ -2,7 +2,9 @@ import commands from '../commands'
 import std from './std';
 
 let promptText = null;
-let currentLocation = 'guest@andr.eu:~$';
+let currentLocation = '~';
+let currentUser = 'guest'
+let hostname = 'andr.eu'
 let currentCommand = null;
 let promptCallback = null;
 
@@ -59,7 +61,7 @@ function setPromptText(text) {
 function updatePromptText(){
     let text = promptText;
     if (typeof promptText !== 'string' || promptText.length === 0)
-        text = currentLocation;
+        text = `${currentUser}@${hostname}:${currentLocation}$`;
     consolelocation.textContent = text;
 }
 
