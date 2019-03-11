@@ -1,19 +1,24 @@
 import commands from '../commands'
 import std from './std';
+import session from '../session';
 
 let promptText = null;
-let currentLocation = '~';
-let currentUser = 'guest'
-let hostname = 'andr.eu'
 let currentCommand = null;
 let promptCallback = null;
 
 function command(name, args) {
     let command = commands.find(x => x.name === name);
-    if (typeof command === 'undefined' || command === null) 
+    if (typeof command === 'undefined' || command === null)
         return std.push('Error, Command not found.');
     currentCommand = command;
-    let result = command.exec(args);
+
+    let result = null;
+    try {
+        result = command.exec(args);
+    }
+    catch (ex) {
+        std.push(`${ex}`);
+    }
 
     if (typeof result === 'undefined' || result === null) {
         currentCommand = null;
@@ -58,14 +63,16 @@ function setPromptText(text) {
     updatePromptText();
 }
 
-function updatePromptText(){
+function updatePromptText() {
     let text = promptText;
-    if (typeof promptText !== 'string' || promptText.length === 0)
+    if (typeof promptText !== 'string' || promptText.length === 0) {
+        const { currentUser, hostname, currentLocation } = session();
         text = `${currentUser}@${hostname}:${currentLocation}$`;
+    }
     consolelocation.textContent = text;
 }
 
-function setPromptCallback(callback){
+function setPromptCallback(callback) {
     promptCallback = callback;
 }
 
