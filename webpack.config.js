@@ -18,6 +18,9 @@ module.exports = {
         'andreu.os.min.js': [
             './src/js/index.js'
         ],
+        'privacy.js': [
+            './src/bakersnotebook/privacy.js'
+        ]
         // 'index.min.css': [
         //     path.resolve(__dirname, 'src', 'css', 'index.css')
         // ],
@@ -29,6 +32,20 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.md$/,
+                use: [
+                    {
+                        loader: "html-loader"
+                    },
+                    {
+                        loader: "markdown-loader",
+                        options: {
+                            /* your options here */
+                        }
+                    }
+                ]
+            },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -57,6 +74,7 @@ module.exports = {
         //     compress: { warnings: false }
         // }),
         new HtmlWebpackPlugin({
+            filename: 'docs/index.html',
             inlineSource: '.(js|css)$', // embed all javascript and css inline
             template: './src/html/index.html',
             minify: {
@@ -66,9 +84,9 @@ module.exports = {
             // hash: false
         }),
         new HtmlWebpackPlugin({
-            filename: 'bakersnotebook/privacy.html',
-            inlineSource: '.(js|css)$', // embed all javascript and css inline
-            template: './src/html/bakersnotebook/privacy.html',
+            filename: 'docs/bakersnotebook/privacy.html',
+            chunks: ['privacy.js'],
+            template: './src/bakersnotebook/privacy.html',
             minify: {
                 minifyJS: true,
                 minifyCSS: true
@@ -76,7 +94,7 @@ module.exports = {
             // hash: false
         }),
         //new HtmlWebpackInlineSourcePlugin(),
-        // new CopyWebpackPlugin([
+        // new CopyWebpackPlugin([ 
         //     { from: 'dist/index.html', to: '../', force: true }
         // ],
         //     { copyUnmodified: true }
