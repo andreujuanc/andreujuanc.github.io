@@ -65,6 +65,16 @@ module.exports = {
             },
             // hash: false
         }),
+        new HtmlWebpackPlugin({
+            filename: 'bakersnotebook/privacy.html',
+            inlineSource: '.(js|css)$', // embed all javascript and css inline
+            template: './src/html/bakersnotebook/privacy.html',
+            minify: {
+                minifyJS: true,
+                minifyCSS: true
+            },
+            // hash: false
+        }),
         //new HtmlWebpackInlineSourcePlugin(),
         // new CopyWebpackPlugin([
         //     { from: 'dist/index.html', to: '../', force: true }
