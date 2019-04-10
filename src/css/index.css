@@ -18,6 +18,17 @@ body.background {
     background-color: #151515;
 }
 
+h1, h2, h3, h4, h5, h6, p strong {
+    color: #E5E5E5;
+    font-weight: bold;
+}
+
+p{
+    text-align: justify;
+}
+
+
+
 .wrapper {
 
     height: 100%;
