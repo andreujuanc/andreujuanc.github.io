@@ -74,7 +74,7 @@ module.exports = {
         //     compress: { warnings: false }
         // }),
         new HtmlWebpackPlugin({
-            filename: 'docs/index.html',
+            filename: 'index.html',
             inlineSource: '.(js|css)$', // embed all javascript and css inline
             template: './src/html/index.html',
             minify: {
@@ -84,7 +84,7 @@ module.exports = {
             // hash: false
         }),
         new HtmlWebpackPlugin({
-            filename: 'docs/bakersnotebook/privacy.html',
+            filename: 'bakersnotebook/privacy.html',
             chunks: ['privacy.js'],
             template: './src/bakersnotebook/privacy.html',
             minify: {
