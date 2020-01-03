@@ -51,7 +51,7 @@ function writeConsole(text) {
         const colorName = ANSI_COLORS[colorCode]
         console.log(colorName)
         text = text.replace(`\u001b[0;${colorCode}m`, `<span style="color:${colorName}">`)
-        text = text.replace('[0m', '</span>')
+        text = text.replace('\u001b[0m', '</span>')
     }
     newLine.innerHTML = text;
     output.appendChild(newLine);
