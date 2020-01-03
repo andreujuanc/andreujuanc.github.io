@@ -1,6 +1,5 @@
-[[0;32m  OK  [0m] Started Show Plymouth Boot Screen.
-[[0;32m  OK  [0m] Started Forward Password Requests to Plymouth Directory Watch.
-[[0;32m  OK  [0m] Started Tell Plymouth To Write Out Runtime Data.
+[[0;31m  FAILED  [0m] Starting to boot Windows
+[[0;32m  OK  [0m] Started Andreu OS in DevMode
 [[0;32m  OK  [0m] Started Discard unused blocks once a week.
 [[0;32m  OK  [0m] Started Daily Cleanup of Temporary Directories.
 [[0;32m  OK  [0m] Started Trigger anacron every hour.

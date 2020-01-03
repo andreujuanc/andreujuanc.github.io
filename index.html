@@ -12,16 +12,17 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9724156-11"></script>
     <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-9724156-11")</script>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono&display=swap" rel="stylesheet">
 </head>
 
 <body style="background-color:#151515">
-    <div id="logo">
-        <a href="https://github.com/andreujuanc/andreujuanc.github.io">Andr.eu OS v0.6</a> | Copyleft 2020
+    <div id="logo" style="display:none">
+        <a href="https://github.com/andreujuanc/andreujuanc.github.io">Andr.eu OS <span id="version"></span></a> | Copyleft 2020
     </div>
     <div class="wrapper screen">
         <div class="center-screen">
             <div id="output"></div>
-            <div id="input">
+            <div id="input" style="display:none">
                 <span id="consolelocation"></span>
                 <input id="inputtext" type="text" name="inputtext" spellcheck="false" autocapitalize="none" autocorrect="off" autocomplete="off">
             </div>

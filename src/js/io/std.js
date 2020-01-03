@@ -33,7 +33,7 @@ const ANSI_COLORS = {
     '34': "LightBlue",
     '32': "LightGreen",
     '36': "LightCyan",
-    '31': "LightRed",
+    '31': "lightcoral",//"LightRed", in ansi lightred, but there is no lightred value in css
     '35': "LightPurple",
     '33': "Yellow",
     '37': "White",
@@ -50,7 +50,7 @@ function writeConsole(text) {
         const colorCode = text.slice(ansiColorIndex + colorDef.length, ansiColorIndexEnd)
         const colorName = ANSI_COLORS[colorCode]
         console.log(colorName)
-        text = text.replace('\u001b[0;32m', `<span style="color:${colorName}">`)
+        text = text.replace(`\u001b[0;${colorCode}m`, `<span style="color:${colorName}">`)
         text = text.replace('[0m', '</span>')
     }
     newLine.innerHTML = text;
