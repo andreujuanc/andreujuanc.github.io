@@ -1,6 +1,8 @@
 html {
     height: 100%;
     font-size: 14pt;
+    font-family: 'Ubuntu Mono', monospace;
+    overflow: hidden;
 }
 
 body {
@@ -39,9 +41,6 @@ p{
     grid-template-columns: 15% auto 15%;
     grid-template-areas: ". . ." ". center ." ". . .";
 
-
-    font-family: monospace;
-
     font-size: 1em;
 }
 
@@ -67,6 +66,7 @@ a {
 .center-screen {
     grid-area: center;
     /* align-self: center; */
+    overflow: hidden;
 }
 
 #logo {
@@ -96,8 +96,7 @@ a {
 #inputtext {
     background: transparent;
     border: none;
-    font-family: monospace;
-    font-size: 1em;
+    font-size: 0.9rem;
     color: #DDD;
     display: initial;
     margin-left: 0.4rem;

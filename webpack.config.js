@@ -28,7 +28,7 @@ module.exports = {
     output: {
         filename: '[name]',
         path: __dirname
-            //path.resolve(__dirname, 'dist')
+        //path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -64,7 +64,11 @@ module.exports = {
                     { loader: "style-loader" },
                     { loader: "css-loader" }
                 ]
-            }
+            },
+            {
+                test: /\.txt$/i,
+                use: 'raw-loader',
+            },
         ]
     },
     plugins: [

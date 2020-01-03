@@ -36,7 +36,7 @@ function exists(path) {
 }
 
 function list(path) {
-    debugger;
+    ;
     const parts = expand(path)
 
     const traverse = (item, dept) => {
@@ -57,7 +57,7 @@ function list(path) {
 }
 
 function read(path) {
-    debugger;
+    ;
     const file = find(path);
     if (file && file.content)
         return file.content;

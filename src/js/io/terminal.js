@@ -46,6 +46,8 @@ function onkeypress(args) {
             promptCallback(result);
         else
             parseLine(result);
+        inputtext.scrollIntoView(false)
+        inputtext.focus();
     }
 }
 

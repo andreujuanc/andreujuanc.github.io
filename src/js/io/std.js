@@ -19,36 +19,69 @@ function read(msg) {
     });
 }
 
+const ANSI_COLORS = {
+    
+    '30': "Black",
+    '34': "Blue",
+    '32': "Green",
+    '36': "Cyan",
+    '31': "Red",
+    '35': "Purple",
+    '33': "Brown",
+    '37': "Gray",
+    '30': "DarkGray",
+    '34': "LightBlue",
+    '32': "LightGreen",
+    '36': "LightCyan",
+    '31': "LightRed",
+    '35': "LightPurple",
+    '33': "Yellow",
+    '37': "White",
+     
+}
+
 function writeConsole(text) {
     if (typeof text !== 'string') return false;
     let newLine = document.createElement('div');
+    const colorDef = '\u001b[0;'
+    let ansiColorIndex = text.indexOf(colorDef)
+    if (ansiColorIndex >= 0) {
+        const ansiColorIndexEnd = text.indexOf('m', colorDef.length)
+        const colorCode = text.slice(ansiColorIndex + colorDef.length, ansiColorIndexEnd)
+        const colorName = ANSI_COLORS[colorCode]
+        console.log(colorName)
+        text = text.replace('\u001b[0;32m', `<span style="color:${colorName}">`)
+        text = text.replace('[0m', '</span>')
+    }
     newLine.innerHTML = text;
     output.appendChild(newLine);
+    newLine.scrollIntoView(false)
     return true;
 }
 
-function sendBuffer() {
-    terminal.updatePromptText();
-    let text = outBuffer;
-    outBuffer = [];
-    if (!Array.isArray(text)) {
-        text = [text];
-    }
+let currentHandler = -1;
 
-    let queueNext = function () {
-        const delay = (Math.random() * 20) + 10;
-        if (writeConsole(text.shift()))
-            setTimeout(queueNext, delay);
-        setTimeout(sendBuffer, delay);
+function sendBuffer(onCompleted) {
+    clearInterval(currentHandler)
+    terminal.updatePromptText();
+
+    const delay = Math.random() * (Math.random() < 0.9 ? 50 : 300)
+    if (writeConsole(outBuffer.shift())) {
+        currentHandler = setTimeout(sendBuffer.bind(this, onCompleted), delay);
     }
-    queueNext();
+    else {
+        currentHandler = -1;
+        onCompleted()
+    }
 }
 
-function push(line) {
+function push(line, onCompleted) {
     if (Array.isArray(line))
         outBuffer.push(...line);
     else
         outBuffer.push(line);
+    if (currentHandler < 0)
+        sendBuffer(onCompleted);
 }
 
 export default {
