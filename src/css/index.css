@@ -96,10 +96,11 @@ a {
 #inputtext {
     background: transparent;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-family: 'Ubuntu Mono', monospace;
     color: #DDD;
     display: initial;
-    margin-left: 0.4rem;
+    margin-left: 0.45rem;
     width: 100%;
 }
 

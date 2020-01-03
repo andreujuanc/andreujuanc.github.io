@@ -71,6 +71,8 @@ function sendBuffer(onCompleted) {
     }
     else {
         currentHandler = -1;
+        inputtext.scrollIntoView(false)
+        inputtext.focus();
         onCompleted()
     }
 }

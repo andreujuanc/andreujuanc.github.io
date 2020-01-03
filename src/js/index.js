@@ -4,7 +4,7 @@ import std from './io/std';
 import terminal from './io/terminal';
 import loadingText from '../txt/init.txt'
 
-const version = '1.0.1'
+const version = '1.0.2'
 console.log('Starting OS v', version)
 document.getElementById('version').innerText = "v" + version
 function AndreuOS() {
