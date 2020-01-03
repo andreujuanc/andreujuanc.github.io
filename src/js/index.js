@@ -2,7 +2,7 @@ import styles from '../css/index.css'
 import commands from './commands';
 import std from './io/std';
 import terminal from './io/terminal';
-const version = '0.6'
+const version = '0.7'
 console.log('Starting OS v', version)
 
 function AndreuOS() {
