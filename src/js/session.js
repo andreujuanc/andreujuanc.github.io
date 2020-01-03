@@ -1,5 +1,5 @@
 const session = {
-    currentLocation: ['~'],
+    currentLocation: ['/', 'home', 'guest'],
     currentUser: 'guest',
     hostname: 'andr.eu'
 }

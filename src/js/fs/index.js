@@ -1,19 +1,13 @@
 import filesystem from './filesystem'
 import session from '../session';
 
-function expand(path) {
-    if (path === '~') return `/home/${session().currentUser}`;
-    return path;
-}
-
 function exists(path) {
     return true;
 }
 
 function list(path) {
-    path = expand(path);
-    const parts = path.split('/');
-    parts[0] = '/';
+    debugger;
+    const parts = ['/', ...path.split('/').filter(x => x !== '')];
 
     const traverse = (item, dept) => {
         const part = parts[dept];

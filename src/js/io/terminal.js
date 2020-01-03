@@ -67,7 +67,10 @@ function updatePromptText() {
     let text = promptText;
     if (typeof promptText !== 'string' || promptText.length === 0) {
         const { currentUser, hostname, currentLocation } = session();
-        text = `${currentUser}@${hostname}:${currentLocation}$`;
+        text = `${currentUser}@${hostname}:${currentLocation
+            .join('/')
+            .replace('//', '/')
+            .replace(`/home/${currentUser}`, '~')}$`;
     }
     consolelocation.textContent = text;
 }
