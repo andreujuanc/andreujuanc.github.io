@@ -5,8 +5,8 @@ import info from './info';
 import contact from './contact';
 import ls from './ls';
 import cd from './cd';
-
+import cat from './cat'
 
 export default [
-    help, echo, clear, info,contact, ls, cd
+    help, echo, clear, info,contact, ls, cd, cat
 ];

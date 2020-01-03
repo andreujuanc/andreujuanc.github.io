@@ -1,7 +1,7 @@
 import terminal from './terminal';
 
 
-let outBuffer =  [];
+let outBuffer = [];
 
 function clear() {
     output.innerHTML = '';
@@ -44,8 +44,11 @@ function sendBuffer() {
     queueNext();
 }
 
-function push(line){
-    outBuffer.push(line);
+function push(line) {
+    if (Array.isArray(line))
+        outBuffer.push(...line);
+    else
+        outBuffer.push(line);
 }
 
 export default {
