@@ -8,7 +8,6 @@ function clear() {
 }
 
 function read(msg) {
-    console.log('reading', msg);
     terminal.setPromptText(msg);
     return new Promise(function (resolve, reject) {
         terminal.setPromptCallback(function (textResult) {
@@ -49,7 +48,6 @@ function writeConsole(text) {
         const ansiColorIndexEnd = text.indexOf('m', colorDef.length)
         const colorCode = text.slice(ansiColorIndex + colorDef.length, ansiColorIndexEnd)
         const colorName = ANSI_COLORS[colorCode]
-        console.log(colorName)
         text = text.replace(`\u001b[0;${colorCode}m`, `<span style="color:${colorName}">`)
         text = text.replace('\u001b[0m', '</span>')
     }

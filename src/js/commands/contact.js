@@ -46,7 +46,6 @@ export default {
                     for (let i in contactData) {
                         form.append(i.toString().toLowerCase(), contactData[i]);
                     }
-                    console.log('sending', form);
                     std.push('Sending... please wait.');
                     fetch(action, {
                         method: "POST",
