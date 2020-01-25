@@ -7,8 +7,7 @@
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "start:dev": "webpack-dev-server --mode development --open",
-    "github": "git subtree push --prefix dist origin master",
-    "pdf": "node ./src/resume/pdf.js"
+    "github": "git subtree push --prefix dist origin master"
   },
   "repository": {
     "type": "git",

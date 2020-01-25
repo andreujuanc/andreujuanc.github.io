@@ -20,9 +20,6 @@ module.exports = {
         ],
         'privacy.js': [
             './src/bakersnotebook/privacy.js'
-        ],
-        'resume.js': [
-            './src/resume/index.js'
         ]
         // 'index.min.css': [
         //     path.resolve(__dirname, 'src', 'css', 'index.css')
@@ -99,17 +96,7 @@ module.exports = {
                 minifyCSS: true
             },
             // hash: false
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'resume/index.html',
-            chunks: ['resume.js'],
-            template: './src/resume/index.html',
-            minify: {
-                minifyJS: true,
-                minifyCSS: true
-            },
-            // hash: false
-        }),
+        })
         //new HtmlWebpackInlineSourcePlugin(),
         // new CopyWebpackPlugin([ 
         //     { from: 'dist/index.html', to: '../', force: true }
