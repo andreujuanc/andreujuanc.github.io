@@ -20,6 +20,9 @@ module.exports = {
         ],
         'privacy.js': [
             './src/bakersnotebook/privacy.js'
+        ],
+        'resume.js': [
+            './src/resume/index.js'
         ]
         // 'index.min.css': [
         //     path.resolve(__dirname, 'src', 'css', 'index.css')
@@ -27,8 +30,8 @@ module.exports = {
     },
     output: {
         filename: '[name]',
-        path: __dirname
-        //path.resolve(__dirname, 'dist')
+        //path: __dirname
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -66,7 +69,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.txt$/i,
+                test: /\.(txt|html)$/i,
                 use: 'raw-loader',
             },
         ]
@@ -91,6 +94,16 @@ module.exports = {
             filename: 'bakersnotebook/privacy.html',
             chunks: ['privacy.js'],
             template: './src/bakersnotebook/privacy.html',
+            minify: {
+                minifyJS: true,
+                minifyCSS: true
+            },
+            // hash: false
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'resume/index.html',
+            chunks: ['resume.js'],
+            template: './src/resume/index.html',
             minify: {
                 minifyJS: true,
                 minifyCSS: true
