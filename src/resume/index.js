@@ -6,4 +6,5 @@ import './index.css'
 document.getElementById('about-me').innerHTML = require('./sections/about-me.md')
 
 //main
+document.getElementById('header').innerHTML = require('./sections/header.html').default
 document.getElementById('experience').innerHTML = require('./sections/experience.html').default
