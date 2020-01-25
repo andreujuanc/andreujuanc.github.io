@@ -3,8 +3,27 @@ import terminal from './terminal';
 
 let outBuffer = [];
 
+function getElements(){
+    
+    /** @type { HTMLDivElement } */
+    const outputElement = document.getElementById('output')
+    /** @type { HTMLInputElement } */
+    const inputtextElement = document.getElementById('inputtext')
+
+    if (outputElement == null || inputtextElement == null) {
+        throw "Could not load dom elements"
+    }
+
+    return {
+        outputElement,
+        inputtextElement
+    }
+}
+
+const { outputElement, inputtextElement } = getElements()
+
 function clear() {
-    output.innerHTML = '';
+    outputElement.innerHTML = '';
 }
 
 function read(msg) {
@@ -19,24 +38,23 @@ function read(msg) {
 }
 
 const ANSI_COLORS = {
-    
+
     '30': "Black",
-    '34': "Blue",
-    '32': "Green",
-    '36': "Cyan",
     '31': "Red",
-    '35': "Purple",
-    '33': "Brown",
-    '37': "Gray",
-    '30': "DarkGray",
-    '34': "LightBlue",
-    '32': "LightGreen",
-    '36': "LightCyan",
-    '31': "lightcoral",//"LightRed", in ansi lightred, but there is no lightred value in css
-    '35': "LightPurple",
+    '32': "Green",
     '33': "Yellow",
+    '34': "Blue",
+    '35': "Purple", //Magenta?
+    '36': "Cyan",
     '37': "White",
-     
+    // '30': "DarkGray",
+    // '34': "LightBlue",
+    // '32': "LightGreen",
+    // '36': "LightCyan",
+    // '31': "lightcoral",//"LightRed", in ansi lightred, but there is no lightred value in css
+    // '35': "LightPurple",
+
+
 }
 
 function writeConsole(text) {
@@ -52,25 +70,24 @@ function writeConsole(text) {
         text = text.replace('\u001b[0m', '</span>')
     }
     newLine.innerHTML = text;
-    output.appendChild(newLine);
+    outputElement.appendChild(newLine);
     newLine.scrollIntoView(false)
     return true;
-}
-
+}// {  NodeJS.Timeout}
 let currentHandler = -1;
 
 function sendBuffer(onCompleted) {
-    clearInterval(currentHandler)
+    window.clearInterval(currentHandler)
     terminal.updatePromptText();
 
     const delay = Math.random() * (Math.random() < 0.9 ? 50 : 300)
     if (writeConsole(outBuffer.shift())) {
-        currentHandler = setTimeout(sendBuffer.bind(this, onCompleted), delay);
+        currentHandler = window.setTimeout(sendBuffer.bind(this, onCompleted), delay);
     }
     else {
         currentHandler = -1;
-        inputtext.scrollIntoView(false)
-        inputtext.focus();
+        inputtextElement.scrollIntoView(false)
+        inputtextElement.focus();
         onCompleted()
     }
 }

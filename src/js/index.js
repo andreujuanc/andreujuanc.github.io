@@ -1,13 +1,21 @@
+// @ts-ignore
 import styles from '../css/index.css'
 import commands from './commands';
 import std from './io/std';
 import terminal from './io/terminal';
+// @ts-ignore
 import loadingText from '../txt/init.txt'
 
 const version = '1.0.3'
 console.log('Starting OS v', version)
-document.getElementById('version').innerText = "v" + version
+
+
+
 function AndreuOS() {
+    const versionElement = document.getElementById('version')
+    const logoElement = document.getElementById('logo')
+    const inputElement = document.getElementById('input')
+    const inputTextElement = document.getElementById('inputtext')    
 
     let welcomeText = [
         'Welcome to Juan C. Andreu\'s home portal.',
@@ -16,39 +24,47 @@ function AndreuOS() {
 
     function init() {
 
+        if (versionElement == null || logoElement == null || inputElement == null || inputTextElement == null) {
+            throw "Could not init, some elements are not properly loaded in the dom"
+        }
+    
+        versionElement.innerText = "v" + version
+
         document.body.classList.add("background");
 
         var loadingLines = loadingText.replace('\r', '').split('\n')
         std.push(loadingLines, () => {
-            document.getElementById('logo').style.display = null;
+            logoElement.style.display = 'initial';
 
             std.clear()
 
             std.push(welcomeText[0]);
             std.push(welcomeText[1]);
 
-            document.getElementById('input').style.display = null;
-            document.getElementById('input').scrollIntoView(false)
-            
+            inputElement.style.display = 'initial';
+            inputElement.scrollIntoView(false)
+
             setTimeout(function () {
-                inputtext.scrollIntoView(false)
-                inputtext.focus();
+                inputTextElement.scrollIntoView(false)
+                inputTextElement.focus();
             }, 50);
         });
-
-
     }
 
-
-    return {
-        init: init,
-        onkeypress: terminal.onkeypress
+    function onkeypress() {
+        if (inputTextElement == null) {
+            throw "Could not init, some elements are not properly loaded in the dom"
+        }
+        
+        inputTextElement.focus();
     }
+
+    this.init =  init
+    this.onkeypress = terminal.onkeypress
+    this.onclick = onclick
 }
 
 let os = new AndreuOS();
 window.onload = os.init
 window.onkeyup = os.onkeypress;
-window.onclick = function () {
-    inputtext.focus();
-}
+window.onclick = os.onclick

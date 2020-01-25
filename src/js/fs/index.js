@@ -23,7 +23,7 @@ function find(path) {
 
 /**
  * Moves along the FS
- * @param {Array} fsPoint 
+ * @param {Array | { files:Array }} fsPoint 
  * @param {string} partName 
  */
 function traverse2(fsPoint, partName) {
@@ -64,6 +64,7 @@ function read(path) {
     else
         throw new Error('Error while reading the file');
 }
+
 export default {
     list, read, exists
 };

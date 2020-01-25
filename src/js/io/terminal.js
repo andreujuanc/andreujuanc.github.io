@@ -5,6 +5,12 @@ import session from '../session';
 let promptText = null;
 let currentCommand = null;
 let promptCallback = null;
+const consolelocation = document.getElementById('consolelocation')
+const inputtextElement = document.getElementById('inputtext')
+
+if (consolelocation == null || inputtextElement == null) {
+    throw "Could not load dom elements"
+}
 
 function command(name, args) {
     let command = commands.find(x => x.name === name);
@@ -39,19 +45,20 @@ function command(name, args) {
 }
 
 function onkeypress(args) {
-    if (args.keyCode == 13) {
-        let result = inputtext.value;
-        inputtext.value = '';
+    if (args.keyCode == 13 && inputtextElement) {
+        let result = inputtextElement.value;
+        inputtextElement.value = '';
         if (currentCommand !== null && typeof promptCallback === 'function')
             promptCallback(result);
         else
             parseLine(result);
-        inputtext.scrollIntoView(false)
-        inputtext.focus();
+        inputtextElement.scrollIntoView(false)
+        inputtextElement.focus();
     }
 }
 
 function parseLine(text) {
+    // @ts-ignore
     std.push(consolelocation.textContent + ' ' + text)
     if (typeof text !== 'string') return false;
     let words = text.replace(/ /g, ' ').split(' ');
@@ -74,6 +81,7 @@ function updatePromptText() {
             .replace('//', '/')
             .replace(`/home/${currentUser}`, '~')}$`;
     }
+    // @ts-ignore
     consolelocation.textContent = text;
 }
 

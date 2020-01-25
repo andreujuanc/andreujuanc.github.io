@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        //"outDir": "./built",
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "strictNullChecks": true
+        //"target": "es5"
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
