@@ -76,6 +76,28 @@ a {
     overflow: hidden;
 }
 
+.center-screen.scroll {
+    overflow-y: auto;
+    scrollbar-color: #404040 #000000;
+
+}
+
+.center-screen.scroll::-webkit-scrollbar {
+    height: 12px;
+    width: 12px;
+    background: #000000;
+}
+
+.center-screen.scroll::-webkit-scrollbar-thumb {
+    background: #404040;
+    -webkit-border-radius: 1ex;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+.center-screen.scroll::-webkit-scrollbar-corner {
+    background: #000;
+}
+
 #logo {
     position: absolute;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

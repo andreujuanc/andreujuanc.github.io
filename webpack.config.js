@@ -18,8 +18,11 @@ module.exports = {
         'andreu.os.min.js': [
             './src/js/index.js'
         ],
-        'privacy.js': [
+        'bakersprivacy.js': [
             './src/bakersnotebook/privacy.js'
+        ],
+        'contactsprivacy.js': [
+            './src/contactrectifier/privacy.js'
         ]
         // 'index.min.css': [
         //     path.resolve(__dirname, 'src', 'css', 'index.css')
@@ -89,8 +92,18 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             filename: 'bakersnotebook/privacy.html',
-            chunks: ['privacy.js'],
+            chunks: ['bakersprivacy.js'],
             template: './src/bakersnotebook/privacy.html',
+            minify: {
+                minifyJS: true,
+                minifyCSS: true
+            },
+            // hash: false
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'contactrectifier/privacy.html',
+            chunks: ['contactsprivacy.js'],
+            template: './src/contactrectifier/privacy.html',
             minify: {
                 minifyJS: true,
                 minifyCSS: true
