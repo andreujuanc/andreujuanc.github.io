@@ -4,7 +4,9 @@
   "description": "My personal website",
   "main": " ",
   "scripts": {
-    "build": "webpack --mode production",
+    "clean": "rm -rf dist",
+    "artifacts": "cp CNAME dist/ && cp .gitignore dist/",
+    "build": "webpack --mode production && npm run artifacts",
     "build:dev": "webpack --mode development",
     "start:dev": "webpack-dev-server --mode development --open",
     "github": "git push origin `git subtree split --prefix dist src`:master --force"
