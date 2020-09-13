@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
     "start:dev": "webpack-dev-server --mode development --open",
-    "github": "git subtree push --prefix dist origin master"
+    "github": "git push origin `git subtree split --prefix dist src`:master --force"
   },
   "repository": {
     "type": "git",
