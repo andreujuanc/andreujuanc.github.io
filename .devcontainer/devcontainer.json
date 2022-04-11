@@ -17,7 +17,9 @@
 	"extensions": [
 		"dbaeumer.vscode-eslint"
 	],
-
+	"mounts": [
+		"type=bind,source=${localEnv:HOME}/.ssh,target=/home/node/.ssh",
+	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
