@@ -52,6 +52,10 @@ This Service may contain links to other sites. If you click on a third-party lin
 
 These Services do not address anyone under the age of 13\. I do not knowingly collect personally identifiable information from children under 13\. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so that I will be able to do necessary actions.
 
+**Data deletion (Added on 2022-04-11)** 
+
+There is no private data stored, but only your account id, email, and the recipes. if you want to get this data deleted, then please contact me on the email address provided in the developer info within the store.
+
 **Changes to This Privacy Policy**
 
 I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this page.
