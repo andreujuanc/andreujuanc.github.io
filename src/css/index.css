@@ -115,7 +115,7 @@ a {
     direction: rtl;
 }
 #consolelocation{
-    padding-top: 2px;
+    padding-top: 1px;
 }
 
 #input {
@@ -141,4 +141,9 @@ a {
 
 #output > div {
     margin-bottom:2px;
+}
+
+
+.location{
+    color: #90c983;
 }
